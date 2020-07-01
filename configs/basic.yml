@@ -1,0 +1,4 @@
+all:
+  task_trainer: "basic"
+  hp:
+    use_class_attrs: false

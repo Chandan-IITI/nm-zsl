@@ -1,0 +1,6 @@
+all:
+  task_trainer: "joint"
+  hp:
+    optim:
+      type: "sgd"
+      kwargs: {lr: 0.003}

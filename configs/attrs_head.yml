@@ -1,0 +1,38 @@
+all:
+  start_task: 3
+  task_trainer: "multi_proto"
+  logging:
+    save_train_logits: true
+    save_prototypes: true
+    print_unseen_accuracy: true
+    print_forgetting: true
+    print_task_guessing_acc: true
+    print_final_tasks_performance: true
+  hp:
+    max_num_epochs: 5
+    use_class_attrs: true
+    clip_grad: {value: 10}
+    optim:
+      type: "sgd"
+      groups:
+        head: {lr: 0.005, momentum: 0.99}
+        embedder: {lr: 0.005}
+      decrease_lr_coef: 0.9
+    batch_size: 32
+
+    head:
+      init:
+        type: "proper"
+        mode: "fan_in"
+        dist: "uniform"
+        with_relu: false
+      scale: 10
+      hid_dim: 256
+      feat_dim: 512
+
+  validation_sequence:
+    enabled: true
+    metric: "harmonic_mean"
+    hpo_grid:
+      head|init|dist: ["uniform", "normal"]
+      clip_grad|value: [10, 100]
